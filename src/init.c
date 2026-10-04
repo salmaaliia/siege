@@ -123,7 +123,7 @@ init_config(void)
   my.chunked        = FALSE;
   my.unique         = TRUE;
   my.json_output    = FALSE;
-  my.extended_errors = FALSE;
+  my.extended       = EXT_NONE;
   my.extra[0]       = 0;
   my.follow         = TRUE;
   my.zero_ok        = TRUE; 

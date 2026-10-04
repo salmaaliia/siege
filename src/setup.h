@@ -133,23 +133,29 @@ typedef struct {
   char **line;
 } LINES;
 
-#define MAX_ERROR_TYPES  32
+typedef enum {
+  EXT_NONE   = 0,
+  EXT_ERRORS = 1,  /* --extended-errors (4xx, 5xx) */
+  EXT_ALL    = 2   /* --extended (all codes: 2xx-5xx) */
+} EXT_MODE;
+
+#define MAX_STATUS_TYPES  64
 
 typedef struct{
   int          code;   /* HTTP status code, e.g. 404, 500 */
   unsigned int count;  /* Number of occurrences */
-} ERROR_ENTRY;
+} STATUS_ENTRY;
 
 typedef struct {
-  ERROR_ENTRY entries[MAX_ERROR_TYPES];
+  STATUS_ENTRY entries[MAX_STATUS_TYPES];
   int         total_types;
-} ERROR_MAP;
+} STATUS_MAP;
 
-void error_map_increment(ERROR_MAP *map, int code, unsigned int count);
-void error_map_sort(ERROR_MAP *map);
-void error_map_merge(ERROR_MAP *dest, const ERROR_MAP *src);
-void error_map_print(ERROR_MAP *map);
-void error_map_print_json(ERROR_MAP *map);
+void status_map_increment(STATUS_MAP *map, int code, unsigned int count);
+void status_map_sort(STATUS_MAP *map);
+void status_map_merge(STATUS_MAP *dest, const STATUS_MAP *src);
+void status_map_print(STATUS_MAP *map);
+void status_map_print_json(STATUS_MAP *map);
 
 void display_help();
 void display_version(BOOLEAN b);
@@ -216,7 +222,7 @@ struct CONFIG
   char    *loginurl;     /* XXX: deprecated the initial login URL   */
   ARRAY   lurl;
   ARRAY   aurl;
-  BOOLEAN extended_errors; /* TRUE == display error code breakdown */
+  EXT_MODE extended;     /* extended reporting mode */
   int     failures;      /* number of failed attempts before abort. */
   int     failed;        /* total number of socket failures.        */
   BOOLEAN escape;        /* boolean, TRUE == url-escaping           */
