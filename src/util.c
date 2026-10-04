@@ -481,9 +481,9 @@ status_map_print(STATUS_MAP *map)
   status_map_sort(map);
 
   if (my.extended == EXT_ERRORS) {
-    fprintf(stderr, "\nHTTP error response codes:\n");
+    fprintf(stderr, "HTTP error response codes:\n");
   } else {
-    fprintf(stderr, "\nHTTP response codes:\n");
+    fprintf(stderr, "HTTP response codes:\n");
   }
 
   for (int i = 0; i < map->total_types; i++) {
